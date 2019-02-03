@@ -1,0 +1,241 @@
+\documentclass[12pt,letter]{article}
+\usepackage{geometry}\geometry{top=0.75in}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+\newcommand{\problem}[1]{\vspace{3mm}\Large\textbf{{Problem {#1}\vspace{3mm}}}\normalsize\\}
+\newcommand{\ppart}[1]{\vspace{2mm}\large\textbf{\\Part {#1})\vspace{2mm}}\normalsize\\}
+\newcommand{\condition}[1]{\vspace{1mm}\textbf{{#1}:}\normalsize\\}
+
+\begin{document}
+\title{CIS 621 Assignment 1}
+\author{Steven Walton}
+\maketitle
+\problem{1}
+For the linear program below, where $a_1,a_2,a_3,b_1,b_2,b_3,c_1,c_2,d_3,e_1,
+e_2,e_3$ are non-zero constants, derive (1) its dual linear program and (2)
+the KKT conditions for the dual linear program.
+\[
+    \inf\limits_{x_1\geq 0, x_2\leq0,x3} a_1x_1 + a_2x_2 + a_3x_3 
+\]
+\vspace{-0.7cm}
+\begin{align*}
+    \hspace{3.5cm}s.t. && b_1x_1 + b_2x_2 + b_3x_3 \leq e_1 \\
+         && c_1x_1 + c_2x_2 = e_3 \\
+         && d_3x_3 \geq e_3
+\end{align*}
+\ppart{1}
+Solving for the dual problem
+\begin{align*}
+\end{align*}
+First we rewrite as a sup function and rearrange our constraints
+\[
+    \sup\limits_{x_1\geq0, x_2\leq0,x_3} -a_1x_1 - a_2x_2 - a_3x_3
+\]
+\vspace{-0.7cm}
+\begin{align*}
+    \hspace{3.5cm}s.t. && b_1x_1 + b_2x_2 + b_3x_3 - e_1 \leq 0 \\
+                       && c_1x_1 + c_2x_2 -e_2 = 0 \\
+                       && e_3 - d_3x_3 \leq 0
+\end{align*}
+Now we rewrite and regroup with the associated x's
+\[
+    \sup\limits_{\lambda_1\geq0,\lambda_2,\lambda_3\geq0}\sup\limits_{x_1\geq0,x_2\leq0,x_3}
+    x_1(\lambda_1b_1+\lambda_2c_1-a_1)
+    + x_2(\lambda_1b_2 + c_2 -a_2)
+    + x_3(b_3 - a_3 -\lambda_3d_3)
+    - \lambda_1e_1 - \lambda_2e_2 + \lambda_3e_3
+\]
+\pagebreak
+\\Rewriting
+\[
+    \sup\limits_{\lambda_1\geq0,\lambda_2,\lambda_3\geq0} -\lambda_1e_1 -\lambda_2e_2 + \lambda_3e_3
+\]
+\vspace{-0.7cm}
+\begin{align*}
+    \hspace{3.5cm}s.t. && \lambda_1b_1 + \lambda_2c_1 \geq a_1 \\
+                       && \lambda_1b_2 \leq a_2 - c_2 \\
+                       && \lambda_3d_3 = b_3 - a_3
+\end{align*}
+Resulting in the dual function
+\[
+    \inf\limits_{\lambda_1\geq0,\lambda_2,\lambda_3\geq0} \lambda_1e_1 +\lambda_2e_2 - \lambda_3e_3
+\]
+\vspace{-0.7cm}
+\begin{align*}
+    \hspace{3.5cm}s.t. && \lambda_1b_1 + \lambda_2c_1 \geq a_1 \\
+                       && \lambda_1b_2 \leq a_2 - c_2 \\
+                       && \lambda_3d_3 = b_3 - a_3
+\end{align*}
+
+
+\ppart{2}
+\condition{Stationary}
+\vspace{-0.2cm}
+\[
+    f(x) = x_1(a_1+b_1+c_1) + x_2(a_2+b_2+c_2) + x_3(a_3+b_3-d_3)-e_1-e_2+e_3
+\]
+\begin{align*}
+    \frac{\partial L}{\partial x_1} &= a_1 + b_2 + c_1\\ 
+    \frac{\partial L}{\partial x_2} &= a_2 + b_2 + c_2\\ 
+    \frac{\partial L}{\partial x_3} &= a_3 + b_3 - d_3\\ 
+\end{align*}
+\vspace{-0.2cm}
+From here we can see that for a stationary solution we need 
+\[
+    -e_1 - e_2 + e_3 = 0
+\]
+\condition{Complementary Slackness}
+We know that the conditions that have constraints need to result in 0. But because
+the constraints cannot be zero we must conclude that
+\begin{align*}
+    b_1x_1 + b_2x_2 + b_3x_3 - e_1 &= 0 \\
+    e_3 - d_3x_3 &= 0
+\end{align*}
+\condition{Primal Feasibility}
+Our conditions established with the problem satisfy the primal feasibility condition.
+\condition{Dual Feasibility}
+Our conditions given with the dual problem satisfy the dual feasibility condition.
+
+\problem{2}
+Let $a_{ij},b_{ij},c_{ij},d_{ij}$ where $i=1,2,\cdots,m$ $j=1,2,\cdots,n$ 
+$i,j\in\mathbb{R^{+}}$, (1) show that it is a convex optimization problem
+(2) derive its KKT conditions
+
+\[
+    \inf\sum\limits_{i=1,j=1}^{m,n}a_{ij}x_{ij} 
+        + \sum\limits_{i=1,j=1}^{m,n}b_{ij}((x_{ij} + 1)\log(x_{ij} + 1) - x_{ij})
+\]
+\vspace{-0.7cm}
+\begin{align*}
+    s.t. && \sum\limits_{i,j}^{m,n} x_{ij} \geq c_j, \forall j\\
+         && \sum\limits_{i,j}^{m,n} x_{ij} + d_i \geq \sum\limits_j^n x_{ij} 
+            + \sum\limits_j^nc_j, \forall i\\
+         && x_{ij} \geq 0\textsf{ } \forall i,j
+\end{align*}
+\ppart{1}
+We know that this is a convex optimization problem because it is written in the 
+standard form. Writing it more conveniently we have
+\[
+    \inf\sum\limits_{i=1,j=1}^{m,n}a_{ij}x_{ij} 
+        + \sum\limits_{i=1,j=1}^{m,n}b_{ij}((x_{ij} + 1)\log(x_{ij} + 1) - x_{ij})
+\]
+\vspace{-0.7cm}
+\begin{align*}
+    s.t. && c_j - \sum\limits_{i=1}^mx_{ij} \leq 0, j=1,\cdots,n\\
+         && \sum\limits_{j=1}^n x_{ij} + \sum\limits_{j=1}^n c_j
+            - \sum\limits_{i=1}^m\sum\limits_{j=1}^n x_{ij} - d_i \leq 0 
+            ,i=1,\cdots,m\\
+         && -x_{ij} \leq 0, i=1,\cdots,m, j=1,\cdots,n
+\end{align*}
+We also notice that all $x_{ij}$ are constrained.
+\ppart{2}
+\condition{Stationary}
+Taking the partial derivative with respect to $x_{ij}$ of the summation of the 
+above terms we get
+\[
+    a_{ij} + b_{ij}\log(x_{ij}+1) - 2
+\]
+Setting this equal to 0, to find the stationary solution, we find that
+\[
+    x_{ij} = e^{\frac{2-a_{ij}}{b_{ij}}}-1
+\]
+\\
+\condition{Complementary Slackness}
+To determine complementary slackness we need to set $h(x_{ij}) = 0$. Where
+\[
+    h(x_{ij}) = c_j - \sum\limits_{i=1}^mx_{ij} + \sum\limits_{j=1}^n(x_{ij} + c_j)
+     - \sum\limits_{i=1,j=1}^{m,n}x_{ij} - d_i -x_{ij}
+ \]
+\\
+\condition{Primal Feasibility}
+These are seen from part 1
+\\
+\condition{Dual Feasibility}
+We don't need to find the dual solution, but rather can determine that 
+$\lambda_1\geq0, \lambda_2\geq0, \lambda_3\geq0$, where each $\lambda$ is associated
+with its respective condition in the primal problem. 
+
+\problem{3}
+Let $a,x\in\mathbb{R}^n, B\in\mathbb{R}^{m\textsf{x}n}, c\in\mathbb{R}^m$
+\\
+$P_1$
+\begin{align*}
+    \inf a^T x \hspace{1cm}
+    s.t. & Bx \preceq c \\
+         & x_i\in\{0,1\},i=1,\cdots,n
+\end{align*}
+$P_2$
+\begin{align*}
+    \inf a^T x \hspace{1cm}
+    s.t. & Bx \preceq c \\
+         & 0 \leq x_i \leq 1,i=1,\cdots,n
+\end{align*}
+$P_3$
+\begin{align*}
+    \inf a^T x \hspace{1cm}
+    s.t. & Bx \preceq c \\
+         & x_i(1-x_i) = 0,i=1,\cdots,n
+\end{align*}
+\ppart{1}
+Derive the dual problem, $P_4$, of $P_3$
+\\
+First let's rewrite
+\begin{align*}
+    \inf a^T x \hspace{1cm}
+    s.t. & Bx -c \preceq 0 \\
+         & x_i(1-x_i) = 0,i=1,\cdots,n
+\end{align*}
+Then we want to make it a max problem
+\begin{align*}
+    \sup -a^T x \hspace{1cm}
+    s.t. & Bx -c \preceq 0 \\
+         & x_i(1-x_i) = 0,i=1,\cdots,n
+\end{align*}
+Then we introduce $\lambda_1\geq0$ that will be associated with the first condition
+and $\lambda_2$ (no constraint) that is associated with the $x_i$ constraint. 
+Next we need to find the max value and solve for x
+\[
+    \sup\limits_{\lambda_1\geq 0,\lambda_2}\sup -a^Tx + \lambda_1Bx - \lambda_1c
+    + \lambda_2\sum\limits_{x=1}^nx_i(1-x_i) \\
+\]
+But we know that the sum results in $x(1-x)$. So now we can take a derivative
+with respect to x and solve for the zeros. 
+\begin{align*}
+    &(-a^T + \lambda_1B + \lambda_2 - \lambda_2x)x - \lambda_1 c \\
+    \frac{\partial}{\partial x} = &(-a^T + \lambda_1B + \lambda_2 - \lambda_2x) = 0\\
+    x = &\frac{-a^T + \lambda_1 B + \lambda_2}{\lambda_2}
+\end{align*}
+Now we write our dual problem
+\begin{align*}
+    \inf\limits_{\lambda_1\geq0,\lambda_2} \lambda_1(B-1) \hspace{1cm}
+    s.t.\hspace{0.4cm} & \lambda_1c \succeq 0 
+\end{align*}
+\ppart{2}
+Are $L_1$ and $L_2$ equal?
+\\
+If we carefully look at the three problems we will notice that they are in fact the same ones. 
+It is clear that $P_1$ and $P_3$ are the same, because they trivially have the 
+same solution to the $x_i$ condition, those being $\{0,1\}$. We can rewrite
+$P_2$ in a more convenient way to show that the constraints are the same.
+
+\begin{align*}
+    \inf a^T x \hspace{1cm}
+    s.t. & Bx \preceq c \\
+         & x_i \geq 0,i=1,\cdots,n\\
+         & x_i \leq 1,i=1,\cdots,n\\
+    \inf a^T x \hspace{1cm}
+    s.t. & Bx \preceq c \\
+         & -x_i \leq 0,i=1,\cdots,n\\
+         & x_i -1 \leq 0,i=1,\cdots,n
+\end{align*}
+From here we can see that stationary solutions are, again, when $x_i=\{0,1\}$.
+With these primal conditions and our clear dual conditions, we can tell that 
+the KKT conditions are the same as well. $\therefore$ they must have the same 
+optimal solution. $\therefore$ they must be the same problem. 
+
+
+\end{document}
