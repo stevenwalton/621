@@ -1,0 +1,189 @@
+\documentclass[12pt,letter]{article}
+\usepackage{geometry}\geometry{top=0.75in}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{xcolor}	% Color words
+\usepackage{cancel}	% Crossing parts of equations out
+\usepackage{tikz}    	% Drawing 
+
+% Don't indent
+\setlength{\parindent}{0pt}
+% Function to replace \section with a problem name specifically formatted
+\newcommand{\problem}[1]{\vspace{3mm}\Large\textbf{{Problem {#1}\vspace{3mm}}}\normalsize\\}
+% Formatting function, like \problem
+\newcommand{\ppart}[1]{\vspace{2mm}\large\textbf{\\Part {#1})\vspace{2mm}}\normalsize\\}
+% Formatting 
+\newcommand{\condition}[1]{\vspace{1mm}\textbf{{#1}:}\normalsize\\}
+
+\begin{document}
+\title{CIS 621 Assignment 2}
+\author{Steven Walton}
+\maketitle
+\problem{1}
+Consider $f:\mathbb{R}^n \rightarrow \mathbb{R}, f(x) = \|x\|_2$. Show that 
+\[ 
+g = 
+\begin{cases}
+    \frac{x}{\|x\|_2} & x \neq 0\\
+    \{y | \|y\|_2 \leq 1\} & x = 0
+\end{cases}
+\]
+
+As usual, we will just take the derivative of $f$. We know this is what to do
+because of the definition of subgradients. Again, we use Einsteinian notation.
+\begin{align*}
+    f(x) &= \|x\|_2 \\
+         &= \sqrt{x_i^2} \\
+    \frac{\partial f}{\partial x_i} &= (\cancel{2}x_i)\left(\cancel{\frac12}\frac{1}{\sqrt{x_i^2}}\right) \\
+         &= \frac{x_i}{\sqrt{x_i^2}} \\
+    \nabla f&= \frac{x}{\|x\|_2}
+\end{align*}
+Therefore we can see that any gradient of the function is a subgradient. We 
+should also recognize that this is the same as $norm\{x\}$. 
+
+Dealing with the case where $x=0$ we can see that the derivative is 
+$\{g | \|g\|_2 \leq 1\}$. $\therefore$ we have our solution.
+
+\problem{2}
+Consider $f(x) = \max\{f_1(x),f_2(x)\}$ where $f_1,f_2:\mathbb{R}^n\rightarrow
+\mathbb{R}$ are convex and differentiable. Show that for $f_1(x) > f_2(x)$ the
+subgradient is $\nabla f_1(x)$, for $f_1(x) < f_2(x)$ the subgradient is
+$\nabla f_2(x)$, and for $f_1(x) = f_2(x)$ the subgradient is any point on the
+line segment between $\nabla f_1(x), \nabla f_2(x)$.
+
+This problem is fairly straight forward. Remembering back to the definition of
+subgradients we may recall, again, that when $f$ is differentiable then $\nabla f$
+is the only possible choice for $g$. Clearly from there we can see
+\begin{align*}
+    f_1(x) > f_2(x) & \\
+        & \max\{f_1(x),f_2(x)\} = f_1(x) \\
+        & \Rightarrow g(x) = \nabla f_1(x) \\
+    f_1(x) < f_2(x) & \\
+        & \max\{f_1(x),f_2(x)\} = f_2(x) \\
+        & \Rightarrow g(x) = \nabla f_2(x)
+\end{align*}
+The trick is that when $f_1 = f_2$ then both are acceptable solutions to the 
+$\max$ function. Knowing this we can see that $g=\nabla f_1$ and $g=\nabla f_2$ 
+are acceptable solutions. $\therefore$ we can conclude that any solution 
+between these two solutions is also true. Or more explicitly
+\[
+    g(x) = \alpha \nabla f_1(x) + \beta \nabla f_2(x)
+\]
+where $\alpha + \beta = 1$
+
+\problem{3}
+Use the definition of subdifferentials to show that the following two functions 
+are not subdifferentiable at $x=0$. (1) $f(x) = -x^\frac12$ (2) $f(x)$ s.t.
+$f(0) = 1$ and $f(x) = 0, x>0$
+
+\ppart{1}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+      \draw[<->] (-1,0) -- (5,0) node[right] {$x$};
+      \draw[<->] (0,-2.5) -- (0,1) node[above] {$y$};
+      \draw (-1, 0) circle (0pt) node[above] {undefined};
+      \draw[->,domain=0:5,ultra thick,smooth,variable=\x] plot ({\x},{-sqrt(\x)});
+\end{tikzpicture}
+\caption{$-x^\frac12$}
+\end{figure}
+
+\begin{align*}
+    \nabla f &= -\frac12 x^\frac{-1}{2} \\
+             &= -\frac12\frac{1}{\sqrt{x}}
+\end{align*}
+Trivially we can see that when $x=0$ this function is not defined. 
+
+To show that it has no subdifferential we need to note that 
+$\lim\limits_{x\rightarrow 0^-}f(x) \neq \lim\limits_{x\rightarrow 0^+}f(x)$ because 
+$\lim\limits_{x\rightarrow 0^-}f(x)$ is undefined and $\notin \mathbb{R}$.
+$\therefore$ there is no subdifferential. (While a subdifferential does not 
+need to be differentiable at a point, its limit must exist and be well defined)
+
+\ppart{2}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+      \draw[<->] (-1,0) -- (3,0) node[right] {$x$};
+      \draw[<->] (0,-1) -- (0,1.5) node[above] {$y$};
+      \fill (0,1) circle (2pt);
+      \draw (0,0) circle (2pt);
+      \draw (-1, 0) circle (0pt) node[above] {undefined};
+      \draw[->,domain=0:2.5,ultra thick,smooth,variable=\x] plot ({\x},{0});
+\end{tikzpicture}
+\caption{$f(0) = 1, f(x) = 0 \forall x>0$}
+\end{figure}
+This functions is not differentiable, because
+this function has is discontinuous at $x=0$. Similar to part 1 we may notice that the
+left limit is undefined, and in this case doesn't exist in any space. $\therefore$
+there is no subdifferential.
+
+\problem{4}
+Consider the subgradient method $x^+=x-\alpha g$ where $g\in\nabla f(x)$. Show
+that if $\alpha < \frac{2(f(x) - f(x^*))}{\|g\|_2^2}$, then $\|x^+-x^*\|_2 
+< \|x-x^*\|_2$. (Every iteration moves closer to the optimal $x^*$)
+
+\begin{align*}
+\|x^+ - x^*\|_2^2 &= \|x-\alpha g - x^*\|_2^2 \\
+		  &= \|x-x^*\|_2^2 - 2\alpha g(x-x^*) + \alpha^2 \|g\|_2^2\\
+		  &< \|x-x^*\|_2^2 - 2\alpha(f(x)-f(x^*)) + 2\left(\frac{(2(f(x)-f(x^*)))^2}{(\|g\|_2^2)^{\cancel{2}}}\right)\cancel{\|g\|_2^2}\\
+		  &< \|x-x^*\|_2^2 - 2\alpha(f(x)-f(x^*)) + 4(f(x)-f(x^*))\alpha\\
+		  &< \|x-x^*\|_2^2 - 6\alpha(f(x)-f(x^*))
+\end{align*}
+From here we can see that because of the extra term and the upper bound provided
+to $\alpha$ we can conclude that $\|x^+-x^*\| < \|x-x^*\|$
+
+\problem{5}
+Use ``lagrange relaxation" and ``dual decomposition" to design a distributed 
+algorithm to find the optimal value of the objective function of the following 
+problem and describe your distributed algorithm elaborately. 
+$a_{s,u}, b_{s,u}, c_u, d_s, \forall s\in \mathcal{S}, \forall u \in \mathcal{U}$
+are all non-negative constants
+\begin{align*}
+\min\hspace{3mm}&\hspace{-3mm}\sum\limits_{s\in\mathcal{S},u\in\mathcal{U}}a_{s,u}x_{s,u} + 
+	\sum\limits_{s\in\mathcal{S},u\in\mathcal{U}}b_{s,u}((x_{s,u}+1)\log(x_{s,u}+1)-x_{s,u})\\
+s.t.\hspace{3mm} &\sum\limits_{s\in\mathcal{S}}x_{s,u}\geq c_u, \forall u\in\mathcal{U}\\ 
+     &\sum\limits_{u\in\mathcal{U}}x_{s,u}\geq d_s, \forall s\in\mathcal{S}\\
+     &x_{s,u}\geq 0, \forall s\in\mathcal{S}, \forall u\in\mathcal{U}
+\end{align*}
+
+We will rewrite this as
+\begin{align*}
+\min\hspace{3mm}&\hspace{-3mm}\sum\limits_{s\in\mathcal{S},u\in\mathcal{U}}a_{s,u}x_{s,u} + 
+	\sum\limits_{s\in\mathcal{S},u\in\mathcal{U}}b_{s,u}((x_{s,u}+1)\log(x_{s,u}+1)-x_{s,u})\\
+s.t.\hspace{3mm} &c_u - \sum\limits_{s\in\mathcal{S}}x_{s,u}\leq 0, \forall u\in\mathcal{U}\\ 
+     &d_s - \sum\limits_{u\in\mathcal{U}}x_{s,u}\leq 0, \forall s\in\mathcal{S}\\
+     &-x_{s,u}\leq 0, \forall s\in\mathcal{S}\\
+     &-x_{s,u}\leq 0, \forall u\in\mathcal{U}
+\end{align*}
+From here we can see that we clearly have two separable problems, one over the
+domain for $\mathcal{S}$ and another over $\mathcal{U}$.
+\begin{align*}
+\min\hspace{3mm}&\hspace{-3mm}\sum\limits_{s\in\mathcal{S}}a_{s,u}x_{s,u} + 
+	\sum\limits_{s\in\mathcal{S}}b_{s,u}((x_{s,u}+1)\log(x_{s,u}+1)-x_{s,u}) \\
+	&+ \lambda_2 \left(d_s - \sum\limits_{u\in\mathcal{U}}x_{s,u} -x_{s,u}\right)\\
+ s.t.\hspace{3mm}    &c_u - \sum\limits_{u\in\mathcal{U}}x_{s,u}\leq 0, \forall u\in\mathcal{U}\\
+     &-x_{s,u}\leq 0, \forall u\in\mathcal{U}\\
+\end{align*}
+and
+\begin{align*}
+\min\hspace{3mm}&\hspace{-3mm}\sum\limits_{u\in\mathcal{U}}a_{s,u}x_{s,u} + 
+	\sum\limits_{u\in\mathcal{U}}b_{s,u}((x_{s,u}+1)\log(x_{s,u}+1)-x_{s,u}) \\
+	&+ \lambda_1 \left(c_u - \sum\limits_{s\in\mathcal{S}}x_{s,u} -x_{s,u}\right)\\
+ s.t.\hspace{3mm}    &d_s - \sum\limits_{u\in\mathcal{U}}x_{s,u}\leq 0, \forall s\in\mathcal{S}\\
+     &-x_{s,u}\leq 0, \forall s\in\mathcal{S}\\
+\end{align*}
+
+Where $\lambda_1, \lambda_2 \geq 0$\\
+$\because$ Lagrangian Relaxation, we are able to solve these equations faster 
+and they are separable over the two different domains and $\therefore$ 
+parallelizeable. 
+
+To find an optimal value we will need to use an iterative method, such as
+gradient decent, steepest decent, or Newton's method. 
+To create an effective algorithm we would need to pass back data per iteration.
+Each domain would be calculated separately, passed back, and the be added together.
+Then the next step can take place in the same manner.
+
+\end{document}
