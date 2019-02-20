@@ -162,20 +162,20 @@ domain for $\mathcal{S}$ and another over $\mathcal{U}$.
 \begin{align*}
 \min\hspace{3mm}&\hspace{-3mm}\sum\limits_{s\in\mathcal{S}}a_{s,u}x_{s,u} + 
 	\sum\limits_{s\in\mathcal{S}}b_{s,u}((x_{s,u}+1)\log(x_{s,u}+1)-x_{s,u}) \\
-	&+ \lambda_2 \left(d_s - \sum\limits_{u\in\mathcal{U}}x_{s,u} -x_{s,u}\right)\\
- s.t.\hspace{3mm}    &c_u - \sum\limits_{u\in\mathcal{U}}x_{s,u}\leq 0, \forall u\in\mathcal{U}\\
+	&+ \lambda_1 \left(c_u - \sum\limits_{u\in\mathcal{S}}x_{s,u}\right) -\lambda_2x_{s,u}\\
+ s.t.\hspace{3mm}    &d_u - \sum\limits_{s\in\mathcal{U}}x_{s,u}\leq 0, \forall u\in\mathcal{U}\\
      &-x_{s,u}\leq 0, \forall u\in\mathcal{U}\\
 \end{align*}
 and
 \begin{align*}
 \min\hspace{3mm}&\hspace{-3mm}\sum\limits_{u\in\mathcal{U}}a_{s,u}x_{s,u} + 
 	\sum\limits_{u\in\mathcal{U}}b_{s,u}((x_{s,u}+1)\log(x_{s,u}+1)-x_{s,u}) \\
-	&+ \lambda_1 \left(c_u - \sum\limits_{s\in\mathcal{S}}x_{s,u} -x_{s,u}\right)\\
- s.t.\hspace{3mm}    &d_s - \sum\limits_{u\in\mathcal{U}}x_{s,u}\leq 0, \forall s\in\mathcal{S}\\
+	&+ \lambda_3 \left(d_s - \sum\limits_{s\in\mathcal{U}}x_{s,u}\right) -\lambda_4 x_{s,u}\\
+ s.t.\hspace{3mm}    &c_u - \sum\limits_{u\in\mathcal{S}}x_{s,u}\leq 0, \forall s\in\mathcal{S}\\
      &-x_{s,u}\leq 0, \forall s\in\mathcal{S}\\
 \end{align*}
 
-Where $\lambda_1, \lambda_2 \geq 0$\\
+Where $\lambda_1, \lambda_2, \lambda_3, \lambda_4 \geq 0$\\
 $\because$ Lagrangian Relaxation, we are able to solve these equations faster 
 and they are separable over the two different domains and $\therefore$ 
 parallelizeable. 
@@ -185,5 +185,41 @@ gradient decent, steepest decent, or Newton's method.
 To create an effective algorithm we would need to pass back data per iteration.
 Each domain would be calculated separately, passed back, and the be added together.
 Then the next step can take place in the same manner.
+
+To start writing pseudo-code we need to first calculate out the gradient of the 
+primal problem. This is fairly easy (again, using Einsteinian notation)
+\[
+\nabla f = a_{s,u} + b_{s,u}\log(x_{s,u}+1)
+\]
+$\therefore$ we will be solving the problem
+\begin{align*}
+f^{(k)} &= f^{(k-1)} - t\nabla f^{(k-1)} \\
+	&= a_{s,u}x^{(k-1)}_{s,u} + b_{s,u}((x^{(k-1)}_{s,u}+1)
+	   \log(x^{(k-1)}_{s,u}+1)-x^{(k-1)}_{s,u}) 
+	   - t(a_{s,u} + b_{s,u}\log(x^{(k-1)}_{s,u}+1))
+\end{align*}
+This doesn't have the Lagrangian relaxation term, but we will need to include that
+for each domain. For simplicity we will say that instead we will be solving
+\[
+f := f + \mathcal{L} - t\nabla f
+\]
+``$:=$" denotes that we are iterating. 
+
+Where $\mathcal{L}$ is the Lagrangian relaxation term for each domain, i.e. there
+is a $\mathcal{L}_{\mathcal{S}}, \mathcal{L}_{\mathcal{U}}$.
+\\
+
+We can compute this algorithm by using the following steps.
+\begin{enumerate}
+\item Distribute problems out by subdomain
+   \begin{enumerate}
+   \item $f_{\mathcal{S}}:= f_{\mathcal{S}} + \mathcal{L}_{\mathcal{S}} - t \nabla f_{\mathcal{S}}$
+   \item $f_{\mathcal{U}}:= f_{\mathcal{U}} + \mathcal{L}_{\mathcal{U}} - t \nabla f_{\mathcal{U}}$
+   \end{enumerate}
+\item return $f$ for each domain
+\item $f = f_{\mathcal{S}} + f_{\mathcal{U}}$
+\item repeat
+\end{enumerate}
+
 
 \end{document}
