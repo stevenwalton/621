@@ -1,0 +1,53 @@
+\documentclass[12pt,letter]{article}
+\usepackage{geometry}\geometry{top=0.75in}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{xcolor}	% Color words
+\usepackage{cancel}	% Crossing parts of equations out
+\usepackage{tikz}    	% Drawing 
+
+% Don't indent
+\setlength{\parindent}{0pt}
+% Function to replace \section with a problem name specifically formatted
+\newcommand{\problem}[1]{\vspace{3mm}\Large\textbf{{Problem {#1}\vspace{3mm}}}\normalsize\\}
+% Formatting function, like \problem
+\newcommand{\ppart}[1]{\vspace{2mm}\large\textbf{\\Part {#1})\vspace{2mm}}\normalsize\\}
+% Formatting 
+\newcommand{\condition}[1]{\vspace{1mm}\textbf{{#1}:}\normalsize\\}
+
+\begin{document}
+\title{CIS 621 Assignment 4}
+\author{Steven Walton}
+\maketitle
+\problem{1}
+For the graph $G=(\mathcal{U},\mathcal{E})$, where $\mathcal{U}$ is the set of 
+vertices and $\mathcal{E}$ is the set of edges, we define the following
+nonlinear integer program, where $w_{i,j}\geq0, \forall(i,j)\in\mathcal{E}$ and 
+$k$ is a nonnegative integer:
+\begin{align*}
+    \sup&\sum\limits_{(i,j)\in\mathcal{E}} w_{i,j}(x_i + x_j - 2x_ix_j)\\
+    %\hspace{-3.5cm}s.t. & \sum\limits_{i\in\mathcal{U}}x_i = k\\
+    s.t. & \sum\limits_{i\in\mathcal{U}}x_i = k\\
+       & x_i\in\{0,1\}, \forall i \in\mathcal{U}
+\end{align*}
+Show that the following linear program is a relaxation of the above problem:
+\begin{align*}
+    \sup&\sum\limits_{(i,j)\in\mathcal{E}} w_{i,j}z_{i,j}\\
+     s.t.\hspace{1cm} & z_{i,j}\leq x_i + x_j, \forall(i,j)\in\mathcal{E}\\
+     & z_{i,j}\leq 2 - x_i - x_j, \forall(i,j) \in \mathcal{E}\\
+     & \sum\limits_{i\in\mathcal{U}}x_i = k\\
+     & 0 \leq x_i \leq 1, \forall i \in\mathcal{U}\\
+     & 0 \leq z_{i,j} \leq 1, \forall(i,jP\in\mathcal{E}
+\end{align*}
+Also, let $F(x)=\sum\limits_{(i,j)\in\mathcal{E}}w_{i,j}(x_i + x_j - 2x_ix_j)$ be
+the objective function of the nonlinear integer program. Show that for any 
+$(x,z)$ that is feasible to the linear program, 
+$F(x)\geq\frac12\sum\limits_{(i,j)\in\mathcal{E}}w_{i,j}z_{i,j}$
+\ppart{1}
+If we remember the definition of linear relaxation we see that it is
+$x_i\in\{0,1\} \mapsto 0\leq x_i \leq 1$
+
+
+
+\end{document}
