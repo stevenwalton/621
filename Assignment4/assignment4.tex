@@ -38,7 +38,7 @@ Show that the following linear program is a relaxation of the above problem:
      & z_{i,j}\leq 2 - x_i - x_j, \forall(i,j) \in \mathcal{E}\\
      & \sum\limits_{i\in\mathcal{U}}x_i = k\\
      & 0 \leq x_i \leq 1, \forall i \in\mathcal{U}\\
-     & 0 \leq z_{i,j} \leq 1, \forall(i,jP\in\mathcal{E}
+     & 0 \leq z_{i,j} \leq 1, \forall(i,j)\in\mathcal{E}
 \end{align*}
 Also, let $F(x)=\sum\limits_{(i,j)\in\mathcal{E}}w_{i,j}(x_i + x_j - 2x_ix_j)$ be
 the objective function of the nonlinear integer program. Show that for any 
@@ -46,7 +46,23 @@ $(x,z)$ that is feasible to the linear program,
 $F(x)\geq\frac12\sum\limits_{(i,j)\in\mathcal{E}}w_{i,j}z_{i,j}$
 \ppart{1}
 If we remember the definition of linear relaxation we see that it is
-$x_i\in\{0,1\} \mapsto 0\leq x_i \leq 1$
+\[
+    x_i\in\{0,1\} \mapsto 0\leq x_i \leq 1
+\]
+We can see from the given problem that 
+\[
+    z_{i,j} = x_i + x_j - 2x_ix_j
+\]
+We may also notice that $z_{i,j} = 0 \forall x_i,x_j\in\{0,1\}$. Clearly this 
+needs a relaxation so we can approximate a solution. From here we can easily 
+check the given linear program is a relaxation of the initial integer program.
+
+It is trivial to see that $z_{i,j}\leq x_i + x_j \because$ the negative term
+ensures that $z_{i,j}$ is smaller. Similarly we can see that if we remove the 
+$x_ix_j$ term from the 2 that we obtain a maximal value and thus our $z_{i,j}$
+has to be smaller than that. Finally, we see that we have the relaxation terms
+where $x_{i,j}$ and $z_{i,j}$ are not limited to integer values. Therefore we
+can conclude that this is a relaxation of the initial problem.
 
 
 
