@@ -21,23 +21,23 @@
 \author{Steven Walton}
 \maketitle
 \problem{1}
-For the graph $G=(\mathcal{U},\mathcal{E})$, where $\mathcal{U}$ is the set of 
+For the graph $G=(\mathcal{V},\mathcal{E})$, where $\mathcal{V}$ is the set of 
 vertices and $\mathcal{E}$ is the set of edges, we define the following
 nonlinear integer program, where $w_{i,j}\geq0, \forall(i,j)\in\mathcal{E}$ and 
 $k$ is a nonnegative integer:
 \begin{align*}
     \sup&\sum\limits_{(i,j)\in\mathcal{E}} w_{i,j}(x_i + x_j - 2x_ix_j)\\
-    %\hspace{-3.5cm}s.t. & \sum\limits_{i\in\mathcal{U}}x_i = k\\
-    s.t. & \sum\limits_{i\in\mathcal{U}}x_i = k\\
-       & x_i\in\{0,1\}, \forall i \in\mathcal{U}
+    %\hspace{-3.5cm}s.t. & \sum\limits_{i\in\mathcal{V}}x_i = k\\
+    s.t. & \sum\limits_{i\in\mathcal{V}}x_i = k\\
+       & x_i\in\{0,1\}, \forall i \in\mathcal{V}
 \end{align*}
 Show that the following linear program is a relaxation of the above problem:
 \begin{align*}
     \sup&\sum\limits_{(i,j)\in\mathcal{E}} w_{i,j}z_{i,j}\\
      s.t.\hspace{1cm} & z_{i,j}\leq x_i + x_j, \forall(i,j)\in\mathcal{E}\\
      & z_{i,j}\leq 2 - x_i - x_j, \forall(i,j) \in \mathcal{E}\\
-     & \sum\limits_{i\in\mathcal{U}}x_i = k\\
-     & 0 \leq x_i \leq 1, \forall i \in\mathcal{U}\\
+     & \sum\limits_{i\in\mathcal{V}}x_i = k\\
+     & 0 \leq x_i \leq 1, \forall i \in\mathcal{V}\\
      & 0 \leq z_{i,j} \leq 1, \forall(i,j)\in\mathcal{E}
 \end{align*}
 Also, let $F(x)=\sum\limits_{(i,j)\in\mathcal{E}}w_{i,j}(x_i + x_j - 2x_ix_j)$ be
@@ -53,7 +53,8 @@ We can see from the given problem that
 \[
     z_{i,j} = x_i + x_j - 2x_ix_j
 \]
-We may also notice that $z_{i,j} = 0 \forall x_i,x_j\in\{0,1\}$. Clearly this 
+We may also notice that $z_{i,j} = 0 \forall x_i,x_j\in\{0,1\}$. We can also 
+notice that $z_{i,j} = 1-\delta_{ij}$. Clearly this
 needs a relaxation so we can approximate a solution. From here we can easily 
 check the given linear program is a relaxation of the initial integer program.
 
@@ -63,6 +64,53 @@ $x_ix_j$ term from the 2 that we obtain a maximal value and thus our $z_{i,j}$
 has to be smaller than that. Finally, we see that we have the relaxation terms
 where $x_{i,j}$ and $z_{i,j}$ are not limited to integer values. Therefore we
 can conclude that this is a relaxation of the initial problem.
+
+\ppart{2}
+Looking at the objective function, we'll need to solve for the expectation value.
+\begin{align*}
+    \langle F(x)\rangle &= \langle\sum\limits_{(i,j)\in\mathcal{E}} w_{i,j}z_{i,j}\rangle\\
+           &= \sum\limits_{(i,j)\in\mathcal{E}} w_{i,j}\mathbf{Pr}(\mathsf{vertex\ within\ cut}) \\
+           &= \sum\limits_{(i,j)\in\mathcal{E}} w_{i,j}\frac12\\
+           &= \frac12 \cancelto{1}{\sum\limits_{(i,j)\in\mathcal{E}}w_{i,j}} \\
+           &= \frac12
+\end{align*}
+We can determine that $\mathbf{Pr}(\mathsf{vertx\ within\ cut}) = \frac12$ if
+we better define this as the probability that a vertex is on one side of a cut.
+This is clearly a bifrication problem and thus the value is $\frac12$.
+
+Since we can see that the expectation value, $\langle F(x)\rangle = \frac12$, 
+and thus we can conclude that $F(x)\geq \frac12\sum\limits_{(i,j)\in\mathcal{E}}w_{i,j}z_{i,j}$
+
+\problem{2}
+For the directed graph $G=(\mathcal{V,E})$, where $\mathcal{V}$ is the set of 
+vertices and $\mathcal{E}$ is the set of directed edges, we want to partition 
+$\mathcal{V}$ into two sets, $\mathcal{U}$ and $\mathcal{W}=\mathcal{V}/
+\mathcal{U}$, in order to maximize the total weight of the edges going from 
+$\mathcal{U}$ to $\mathcal{W}$ (edges $(i,j)$ with $i\in\mathcal{U}$ and 
+$j\in\mathcal{W}$
+
+\begin{itemize}
+    \item Give a randomized $\frac14$-approximation algorithm for this problem.
+    \item Show that the following linear program is a relaxation of this problem.
+\end{itemize}
+\begin{align*}
+    max & \sum\limits_{(i,j)\in\mathcal{E}} w_{i,j}z_{i,j}\\
+    s.t.\hspace{1em}& z_{i,j} \leq x_i, \forall(i,j)\in \mathcal{E}\\
+        & z_{i,j}\leq 1 - x_j, \forall(i,j)\in \mathcal{E}\\
+        & 0 \leq x_i \leq 1, \forall i\in \mathcal{V}\\
+        & 0 \leq z_{i,j} \leq 1, \forall (i,j)\in\mathcal{E}
+\end{align*}
+\begin{itemize}
+    \item For the above linear program, give a randomized $\frac12$-approximation
+          algorithm based on rounding $x_i\forall i\in\mathcal{V}$ to 1, with the
+          probability of $\frac12x_i + \frac14$
+\end{itemize}
+
+\ppart{1}
+
+\ppart{2}
+
+\ppart{3}
 
 
 
