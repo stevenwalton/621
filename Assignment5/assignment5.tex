@@ -1,0 +1,64 @@
+\documentclass[12pt,letter]{article}
+\usepackage{geometry}\geometry{top=0.75in}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{xcolor}	% Color words
+\usepackage{cancel}	% Crossing parts of equations out
+\usepackage{tikz}    	% Drawing 
+\usepackage{pgfplots}   % Other plotting
+\usepgfplotslibrary{colormaps,fillbetween}
+\usepackage{placeins}   % Float barrier
+
+% Don't indent
+\setlength{\parindent}{0pt}
+% Function to replace \section with a problem name specifically formatted
+\newcommand{\problem}[1]{\vspace{3mm}\Large\textbf{{Problem {#1}\vspace{3mm}}}\normalsize\\}
+% Formatting function, like \problem
+\newcommand{\ppart}[1]{\vspace{2mm}\large\textbf{\\Part {#1})\vspace{2mm}}\normalsize\\}
+% Formatting 
+\newcommand{\condition}[1]{\vspace{1mm}\textbf{{#1}:}\normalsize\\}
+
+\begin{document}
+\title{CIS 621 Assignment 5}
+\author{Steven Walton}
+\maketitle
+\problem{1}
+For the ``ski rental" problem, suppose renting the ski costs \$1 for Day 1 and 
+buying the ski costs \$p, where $p\in\mathbb{Z}^+$ (the positive integers)
+and $p\gg1$. It is already known that, if the rental price stays \$1 for every
+day, the best competitive ratio for any deterministic online algorithm is
+$c_\mathsf{static} = 2-\frac1p$. Suppose the rental price can vary arbitrarily 
+in $\mathbb{Z}^+$ since Day 2, prove that the best competitive ratio for any 
+deterministic online algorithm is $c_\mathsf{dynamic} = p$.
+\\
+
+\textbf{Hint}: Consider an online algorithm $A_d$ that keeps renting the ski 
+until buying it on the d$^{th}$ day, where $d\in\mathbb{Z}^+$. Think about
+how the ``adversary" (or ``environment") can respond to $A_d$. Maybe study the
+cases of $d=1$ and $d\geq 2$, respectively, and then summarize.
+\\
+
+\textbf{Solution}:\\
+Our goal is to minimize our cost, or maximize the distance between the rental 
+price and the price of the skis. That is
+\[
+    \max\|f(rent)-p\|
+\]
+Conversely the renter wants to maximize the distance (maximize their profits)
+\[
+    \min\|f(rent)-p\|
+\]
+$\therefore$ our best option is to actually buy the skis on the first day, as
+this maximizes our cost distance. But the optimal solution is renting for
+\$1 at day one. So we have
+\begin{align*}
+    c_{\mathsf{dynamic}} &=\frac{\max\|f(rent)-p\|}{1}\\
+    &= \frac{p}{1}\\
+    &= p
+\end{align*}
+
+
+
+
+\end{document}
